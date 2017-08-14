@@ -1745,6 +1745,8 @@ end
 @deprecate selectperm partialsortperm
 @deprecate selectperm! partialsortperm!
 
+@deprecate promote_noncircular promote false
+
 # END 0.7 deprecations
 
 # BEGIN 1.0 deprecations
