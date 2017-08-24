@@ -980,7 +980,8 @@ static jl_cgval_t convert_julia_type(jl_codectx_t &ctx, const jl_cgval_t &v, jl_
                             isimmutable = true;
                         }
                         slotv = ctx.builder.CreateSelect(isboxv,
-                            decay_derived(boxv), emit_bitcast(ctx, slotv, boxv->getType()));
+                                decay_derived(boxv),
+                                emit_bitcast(ctx, decay_derived(slotv), boxv->getType()));
                         jl_cgval_t newv = jl_cgval_t(slotv, froot, false, typ, new_tindex);
                         newv.tbaa = tbaa;
                         newv.isimmutable = isimmutable;
@@ -6589,7 +6590,7 @@ static void init_julia_llvm_env(Module *m)
                                          "julia.gcroot_flush");
     add_named_global(gcroot_flush_func, (void*)NULL, /*dllimport*/false);
 
-    pointer_from_objref_func = Function::Create(FunctionType::get(T_pjlvalue,
+    pointer_from_objref_func = Function::Create(FunctionType::get(T_size,
                                          ArrayRef<Type*>(PointerType::get(T_jlvalue, AddressSpace::Derived)), false),
                                          Function::ExternalLinkage,
                                          "julia.pointer_from_objref");
