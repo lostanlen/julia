@@ -405,7 +405,8 @@ function (^)(A::AbstractMatrix{T}, p::Real) where T
 
     # Quicker return if A is diagonal
     if isdiag(A)
-        retmat = copy(A)
+        TT = promote_op(^, T, typeof(p))
+        retmat = copy!(similar(A, TT), A)
         for i in 1:n
             retmat[i, i] = retmat[i, i] ^ p
         end
